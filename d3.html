@@ -1,0 +1,67 @@
+<html> 
+  <head>
+    <!-- <script type="text/javascript" src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script type="text/javascript" src="https://unpkg.com/vue@next"></script>
+    <title>Vue 3 Basics</title>
+    <style type="text/css">
+      .box {
+        height: 50px;
+        width: 50px;
+      }
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="intro" v-cloak > 
+      {{message}} 
+      <input @keyup.enter="printConsole('hey guys how you doing')"  v-model="message" />
+
+      <hr />
+      <button @click="tBox"> Toggle Button </button>
+      <div v-if="isVisible" class="box" style="background-color:brown;"> </div>
+      <test-box v-if="isVisible" />
+    </div>
+   <!--  <div v-html='htmlcontent'> </div> -->
+
+    <script type="text/javascript">
+      let app = Vue.createApp({
+        data: function() {
+          return {
+            message: "hello vuejs 3",
+            isVisible: false
+          }
+        },
+        methods: {
+          tBox(){
+            this.isVisible = !this.isVisible
+          },
+          printConsole(str){
+            console.log(str)
+          }
+        },
+        updated(){
+          console.log("updated")
+        }
+      })
+      app.component('test-box', {
+        template: `
+            <div class="box"></div>
+        `,
+        created() {
+          console.log("created")
+        },
+        mounted(){
+          console.log("mounted")
+        },
+        unmounted(){
+          console.log("unmounted")
+        }
+      })
+      app.mount('#intro')
+    </script>
+
+  </body>  
+</html>
